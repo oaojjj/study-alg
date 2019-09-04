@@ -2,40 +2,72 @@
 #include <string.h>
 #include <ctype.h>
 
-#define BUFFER_SIZE 21 // ë‹¨ì–´ì˜ ìµœëŒ€ ê¸¸ì´ëŠ” 20
+#define BUFFER_SIZE 21 // ´Ü¾îÀÇ ÃÖ´ë ±æÀÌ´Â 20
 
 int main() {
-	int n, m;
+	int m, n; // m = Çà, n = ¿­
 	int ch, i=0;
-	char *array[80]; // m=9, n=9ì¼ë•Œ í•„ìš”í•œ ë°°ì—´ì˜ í¬ê¸° m x n=81
-	char buffer[BUFFER_SIZE]; // ê° ë‹¨ì–´ë¥¼ ì„ì‹œë¡œ ì €ì¥í•  ë°°ì—´ì´ë‹¤.
+	char *array[80]; // m=9, n=9ÀÏ¶§ ÇÊ¿äÇÑ ¹è¿­ÀÇ Å©±â m x n=81
+	char buffer[BUFFER_SIZE]; // °¢ ´Ü¾î¸¦ ÀÓ½Ã·Î ÀúÀåÇÒ ¹è¿­ÀÌ´Ù.
+	int len[80];
+	int maxlen[10];
 
 	scanf("%d %d", &m, &n);
-	getchar();// (ì—”í„°í‚¤)ë²„í¼ë¹„ìš°ê¸°
+	getchar();// (¿£ÅÍÅ°)¹öÆÛºñ¿ì±â
 
-	while(i<m*n){ // ì…ë ¥ëœ í–‰ì—´ì˜ ìˆ˜ ë§Œí¼ ë°˜ë³µí•œë‹¤.
-		
+	// ÀÔ·ÂµÇ´Â ¹®ÀÚ¿­À» ºĞ¸®ÇØ¼­ ÀúÀåÇÏ´Â °úÁ¤
+	while(i<m*n){
 		int index = 0;
-		while (1) { // ë¬´í•œë£¨í”„ë¥¼ ëŒë©´ì„œ ëª¨ë“  ì˜ˆì™¸ì ì¸ ìƒí™©ì„ ì²˜ë¦¬í•œë‹¤.(ìˆ«ìë„ ì˜ˆì™¸ í¬í•¨)
+
+		while (1) { // ¹«ÇÑ·çÇÁ¸¦ µ¹¸é¼­ ¸ğµç ¿¹¿ÜÀûÀÎ »óÈ²À» Ã³¸®ÇÑ´Ù.(¼ıÀÚµµ ¿¹¿Ü Æ÷ÇÔ)
 			ch = getchar();
-			if (isalpha(ch)) { // ì…ë ¥ë°›ì€ ë¬¸ìê°€ ì•ŒíŒŒë²³ì´ë¼ë©´ ë²„í¼ì— ì¶”ê°€í•œë‹¤.
+			if (isalpha(ch)) { // ÀÔ·Â¹ŞÀº ¹®ÀÚ°¡ ¾ËÆÄºªÀÌ¶ó¸é ¹öÆÛ¿¡ Ãß°¡ÇÑ´Ù.
 				if (index < BUFFER_SIZE-1) {
 					buffer[index++] = ch;
 				}
 			}
-			else if (isspace(ch)) { // ëª¨ë“  ê³µë°±ë¬¸ìë¥¼ ì²´í¬í•œë‹¤.
+			else if (isspace(ch)) { // ¸ğµç °ø¹é¹®ÀÚ¸¦ Ã¼Å©ÇÑ´Ù.
 				break;
 			}
 		}
-		if (index > 0) { // ê³µë°±ì´ ë¨¼ì € ì…ë ¥ë˜ê±°ë‚˜ ì—¬ëŸ¬ë²ˆ ì…ë ¥ë˜ì—ˆì„ ê²½ìš° ì¸ë±ìŠ¤ë¥¼ ì²´í¬í•˜ì—¬ ì˜ˆì™¸ë¡œ ì²˜ë¦¬í•œë‹¤.
+		if (index > 0) { // °ø¹éÀÌ ¸ÕÀú ÀÔ·ÂµÇ°Å³ª ¿©·¯¹ø ÀÔ·ÂµÇ¾úÀ» °æ¿ì ÀÎµ¦½º¸¦ Ã¼Å©ÇÏ¿© ¿¹¿Ü·Î Ã³¸®ÇÑ´Ù.
 			buffer[index] = '\0';
-			array[i++] = strdup(buffer);
+			array[i] = strdup(buffer);
+			// ¹®ÀÚ¿­ ±æÀÌ
+			len[i] = strlen(array[i]);
+			i++;
 		}
 	}
-	
+		
+	// ÇàÀÇ ¹®ÀÚ¿­ ÃÖ´ë±æÀÌ ±¸ÇÏ±â
+	for (int col = 0; col < n; col++) {
+		int cnt = 1;
+		maxlen[col] = len[col];
+		for (int row = 0; row < m-1; row++) {
+			if (maxlen[col] < len[n*cnt+col]) {
+				maxlen[col] = len[n*cnt+col];
+			}
+			cnt++;
+		}
+	}
 
-	for (int j = 0; j < m*n; j++) {
-		printf("%s ", array[j]);
+	i = 0;
+	// Å×ÀÌºí Ãâ·Â
+	for (int j = 0; j < m; j++) {
+		int space;
+		for (int k = 0; k < n; k++) {
+			printf("%s", array[i]);
+			if (k == n - 1) {
+				printf("\n");
+				i++;
+				break;
+			}
+			space = maxlen[k] - len[i];
+			i++;
+			for (int scnt = 0; scnt <= space; scnt++) {
+				printf(" ");
+			}
+		}
 	}
 	return 0;
 }
