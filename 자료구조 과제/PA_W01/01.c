@@ -11,7 +11,7 @@
 #define FALSE 0
 
 
-/*ÇÁ·Î±×·¡¹Ö °úÁ¦ W01_1
+/*í”„ë¡œê·¸ë˜ë° ê³¼ì œ W01_1
 https://www.dropbox.com/s/4tlzlxrw6nlmrms/pa01.pdf?dl=0
 */
 
@@ -28,7 +28,7 @@ void wordCounter(Word[], char *);
 void getWord(char*);
 int isWord(char*);
 
-int inCount; // Word ±¸Á¶Ã¼¿¡ Æ÷ÇÔµÈ ´Ü¾î °³¼ö
+int inCount; // Word êµ¬ì¡°ì²´ì— í¬í•¨ëœ ë‹¨ì–´ ê°œìˆ˜
 //char* sorted[WORD_MAX_COUNT];
 
 int main() {
@@ -41,30 +41,30 @@ int main() {
 	FILE*fp = fopen("pride_and_prejudice.txt", "r");
 
 	if (fp == NULL) {
-		printf("ÆÄÀÏ ÀĞ±â ½ÇÆĞ\n");
+		printf("íŒŒì¼ ì½ê¸° ì‹¤íŒ¨\n");
 		return -1;
 	}
 
 	/* test
-	strcpy(word->word, "È«±æµ¿");
-	strcpy(buffer, "È«±æµ¿");
+	strcpy(word->word, "í™ê¸¸ë™");
+	strcpy(buffer, "í™ê¸¸ë™");
 	int test = strcmp(word->word, buffer);
 	*/
 
 	while (!feof(fp)) {
 		index = 0;
 
-		// ÇÑ ÁÙ¾¿ ÀĞ´Â´Ù
+		// í•œ ì¤„ì”© ì½ëŠ”ë‹¤
 		while ((ch = fgetc(fp)) != '\n') {
 
 			if (isalpha(ch) || ispunct(ch)) {
 				buffer[index++] = ch;
 			}
-			else if (index < 7 && isspace(ch)) { // ¹®ÀÚ¼ö°¡ 7¹Ì¸¸ ÀÌ°í °ø¹é¹®ÀÚ¸¦ ¸¸³µÀ» ¶§ ´Ü¾î·Î ÀÎ½ÄÇÏÁö ¾Ê´Â´Ù.
+			else if (index < 7 && isspace(ch)) { // ë¬¸ììˆ˜ê°€ 7ë¯¸ë§Œ ì´ê³  ê³µë°±ë¬¸ìë¥¼ ë§Œë‚¬ì„ ë•Œ ë‹¨ì–´ë¡œ ì¸ì‹í•˜ì§€ ì•ŠëŠ”ë‹¤.
 				index = 0;
 				continue;
 			}
-			else if (index >= 7 && isspace(ch)) { // ¹®ÀÚ¼ö°¡ 7ÀÌ»ó ÀÌ°í °ø¹é¹®ÀÚ¸¦ ¸¸³µÀ» ¶§ ´Ü¾î·Î ÀÎ½ÄÇÑ´Ù.
+			else if (index >= 7 && isspace(ch)) { // ë¬¸ììˆ˜ê°€ 7ì´ìƒ ì´ê³  ê³µë°±ë¬¸ìë¥¼ ë§Œë‚¬ì„ ë•Œ ë‹¨ì–´ë¡œ ì¸ì‹í•œë‹¤.
 				break;
 			}
 			else { // EOF
@@ -73,19 +73,20 @@ int main() {
 		}
 
 		if (index > 0) {
-			buffer[index] = '\0';
+			// ë„ë¬¸ìë¥¼ ë§ˆì§€ë§‰ì— ë¶™ì—¬ì£¼ê³  ì†Œë¬¸ìë¡œ ë§Œë“¤ì–´ ì¤€ë‹¤.
+			buffer[index] = '\0'; 
 			my_strlwr(buffer);
-			if (!(isalpha(buffer[0])) || !(isalpha(buffer[index - 1]))) {
+			if (!(isalpha(buffer[0])) || !(isalpha(buffer[index - 1]))) { // ë²„í¼ì˜ ì²˜ìŒê³¼ ëì´ ì•ŒíŒŒë²³ì´ ì•„ë‹ˆë©´ ì•ŒíŒŒë²³ìœ¼ë¡œ ë§Œë“¤ì–´ ì¤€ë‹¤.
 				getWord(buffer);
 			}
 
-			if (isWord(buffer)) {
+			if (isWord(buffer)) { // ë¬¸ì ê¸¸ì´ê°€ ì¡°ê±´ì„ ë§Œì¡±í•˜ê³  ë‹¨ì–´ê°€ ë§Œë“¤ì–´ ì§€ë©´ ì¹´ìš´íŠ¸ í•œë‹¤.
 				wordCounter(word, buffer);
 			}
 		}
 	}
 
-	// »çÀü½Ä ¼ø¼­
+	// ì‚¬ì „ì‹ ìˆœì„œ
 	for (i = 0; i < inCount - 1; i++) {
 		index = i;
 		for (int j = i + 1; j < inCount; j++) {
@@ -99,7 +100,7 @@ int main() {
 		word[index] = tmp;
 	}
 
-	// Ãâ·Â
+	// ì¶œë ¥
 	for (i = 0; i < inCount; i += 10) {
 		printf("%s %d\n", word[i].word, word[i].count);
 	}
@@ -108,8 +109,8 @@ int main() {
 }
 
 void getWord(char* str) {
-	char tmp[WORD_MAX_SIZE]; // ÀÓ½ÃÀúÀå
-	char string[WORD_MAX_SIZE]; // ´Ü¾î ¿Ï¼º
+	char tmp[WORD_MAX_SIZE]; // ì„ì‹œì €ì¥
+	char string[WORD_MAX_SIZE]; // ë‹¨ì–´ ì™„ì„±
 	int index = 0, cnt = 0;
 	int len = my_strlen(str);
 	int flag = TRUE;
@@ -117,7 +118,7 @@ void getWord(char* str) {
 	strcpy(tmp, str);
 	while (TRUE) {
 		if (!isalpha(tmp[index]) && flag) {
-			tmp[index++] = ' '; // FALSE´ë½Å 0À» »ç¿ë
+			tmp[index++] = ' '; // ê¸°í˜¸ë¥¼ ê³µë°±ë¬¸ìë¡œ ë°”ê¿” ì¤€ë‹¤.
 			continue;
 		}
 		if (flag) {
@@ -153,7 +154,7 @@ int isWord(char* str) {
 
 void wordCounter(Word word[], char * str) {
 	for (int i = 0; i <= inCount; i++) {
-		// Ã¹ ´Ü¾î
+		// ì²« ë‹¨ì–´
 
 		if (strcmp(word[i].word, str) != 0) {
 			if (word[i].count == 0) {
