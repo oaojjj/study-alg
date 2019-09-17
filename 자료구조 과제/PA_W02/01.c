@@ -9,14 +9,15 @@
 #define FALSE 0
 
 void my_strlwr(char* str);
+int isFirstWord(char*str[], char*buffer);
 
-int word_cnt; // 전체 단어 개수 저장
+int total_cnt; // 전체 단어 개수 저장
 
-int main() {
+	int main() {
 	char *word[MAX_WORD];
-	int *word_count[MAX_WORD]; // 각 단어 개수 저장
+	int word_count[MAX_WORD]; // 각 단어 개수 저장
 	char buffer[BUF_LEN];
-	int  buf_len, index;
+	int index;
 	int ch;
 	int flag; // 기호
 
@@ -33,7 +34,7 @@ int main() {
 				buffer[index++] = ch;
 				flag = TRUE;
 			}
-			else if (ispunct(ch)) { // 기호
+			else if (ch == '\'' || ch == '-') { // 기호 #ispunct(ch)
 				if (flag) {
 					buffer[index++] = ch;
 					flag = FALSE;
@@ -61,15 +62,27 @@ int main() {
 			continue;
 		}
 
-		// 완성된 단어
-		for (int i = 0; i < word_cnt; i++) {
-
+		if (total_cnt == 0) { //첫 단어
+			word[0] = strdup(buffer);
+			word_count[0]++;
+			total_cnt++;
 		}
-		
-		
-
-
-	}
+		else { // 완성 단어 카운트
+			if (isFirstWord(word, buffer)) { // 첫 단어 검사
+				word_count[total_cnt]++;
+				total_cnt++;
+			}
+			else { // 첫 단어 아닐 때
+				for (int i = 0; i < total_cnt; i++) {
+					if (!strcmp(word[i], buffer)) {
+						word_count[i]++;
+						total_cnt++;
+						break;
+					}
+				}
+			}
+		}
+	} // while
 }
 
 // 소문자 변환 함수
@@ -81,5 +94,17 @@ void my_strlwr(char*str) {
 		}
 		i++;
 	}
+}
+
+// 첫 단어 검사
+int isFirstWord(char * str[], char buffer[])
+{
+	int flag = TRUE;
+	for (int i = 0; i < total_cnt; i++) {
+		if (strcmp(str[i], buffer)) {
+			flag = FALSE;
+		}
+	}
+	return flag;
 }
 
