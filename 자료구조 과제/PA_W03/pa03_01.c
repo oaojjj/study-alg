@@ -7,9 +7,9 @@
 #define MAX_LEN 21
 #define ALPHA_LEN 26
 #define GROUP_MAX_SIZE 10
-// µÎ °¡Áö ¹æ¹ı
-// 1. ´Ü¾îÀÇ ¾ËÆÄºªÀ» ¿À¸§Â÷¼ø Á¤·ÄÇØ¼­ ºñ±³ÇßÀ» ¶§ ´Ü¾î°¡ ¶È°°À¸¸é ¾ËÆÄºªÀÇ ºóµµ¼öµµ °°´Ù´Â ¾ê±â´Ï±î sort¸¦ ÀÌ¿ëÇÑ ¹æ¹ı -> ÃÖ´ë·Î ±æÀÌ 20ÀÎ ´Ü¾î°¡ 100°³°¡ ÀÔ·ÂµÇ¸é ´À¸®´Ù *O(N^2)
-// 2. ´Ü¾îÀÇ ¾ËÆÄºª ºóµµ¼ö¸¦ ÀÌ¿ëÇÑ ¹æ¹ı -> ¶È°°Àº Á¶°ÇÀ¸·Î ÀÔ·ÂµÇµµ ºóµµ¼ö¸¸ ºñ±³ÇÏ¸é µÇ´Ï±î sortº¸´Ù´Â ºü¸£´Ù? *O(N)
+// ë‘ ê°€ì§€ ë°©ë²•
+// 1. ë‹¨ì–´ì˜ ì•ŒíŒŒë²³ì„ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬í•´ì„œ ë¹„êµí–ˆì„ ë•Œ ë‹¨ì–´ê°€ ë˜‘ê°™ìœ¼ë©´ ì•ŒíŒŒë²³ì˜ ë¹ˆë„ìˆ˜ë„ ê°™ë‹¤ëŠ” ì–˜ê¸°ë‹ˆê¹Œ sortë¥¼ ì´ìš©í•œ ë°©ë²• -> ìµœëŒ€ë¡œ ê¸¸ì´ 20ì¸ ë‹¨ì–´ê°€ 100ê°œê°€ ì…ë ¥ë˜ë©´ ëŠë¦¬ë‹¤ *O(N^2)
+// 2. ë‹¨ì–´ì˜ ì•ŒíŒŒë²³ ë¹ˆë„ìˆ˜ë¥¼ ì´ìš©í•œ ë°©ë²• -> ë˜‘ê°™ì€ ì¡°ê±´ìœ¼ë¡œ ì…ë ¥ë˜ë„ ë¹ˆë„ìˆ˜ë§Œ ë¹„êµí•˜ë©´ ë˜ë‹ˆê¹Œ sortë³´ë‹¤ëŠ” ë¹ ë¥´ë‹¤? *O(N)
 
 typedef struct {
 	char* group[GROUP_MAX_SIZE];
@@ -17,8 +17,8 @@ typedef struct {
 	int alpha[ALPHA_LEN];
 }Anagram;
 
-int g_count; // ÀüÃ¼ ´Ü¾î °³¼ö
-int g_word_count; // ¾Æ³ª±×·¥ word ¾ËÆÄºª ºóµµ¼ö ´Ù¸¥ ´Ü¾î °³¼ö
+int g_count; // ì „ì²´ ë‹¨ì–´ ê°œìˆ˜
+int g_word_count; // ì•„ë‚˜ê·¸ë¨ word ì•ŒíŒŒë²³ ë¹ˆë„ìˆ˜ ë‹¤ë¥¸ ë‹¨ì–´ ê°œìˆ˜
 
 void checkAlpha(char* str, int alpha[], int length);
 int alphaCmp(Anagram word[], int alpha[]);
@@ -36,7 +36,7 @@ int main() {
 		int m_alpha[ALPHA_LEN] = { 0, };
 
 		scanf("%s", buffer);
-		if (!strcmp(buffer, "EOF")) // strcmp(); true -> 0 ¹İÈ¯
+		if (!strcmp(buffer, "EOF")) // strcmp(); true -> 0 ë°˜í™˜
 			break;
 		my_strlwr(buffer);
 
@@ -44,7 +44,7 @@ int main() {
 
 		checkAlpha(buffer, m_alpha, m_len);
 
-		// Ã¹ ´Ü¾î ³Ö±â
+		// ì²« ë‹¨ì–´ ë„£ê¸°
 		if (g_count == 0) {
 			addWord(word, buffer, m_alpha, index);
 		}
@@ -54,21 +54,21 @@ int main() {
 		}
 	}
 	
-	// ¾Æ³ª±×·¥ Á¤·Ä
+	// ì•„ë‚˜ê·¸ë¨ ì •ë ¬
 	char *key;
 	int i, j;
 	for (i = 1; i <= g_word_count; i++) {
 		key = strdup(word[i].group[0]);
 		tmp = word[i];
 		j = i - 1;
-		while (j >= 0 && strcmp(word[j].group[0], key) == 1) {
+		while (j >= 0 && strcmp(word[j].group[0], key) >= 1) {
 			word[j + 1] = word[j];
 			j--;
 		}
 		word[j + 1] = tmp;
 	}
 
-	// Ãâ·Â
+	// ì¶œë ¥
 	for (i = 0; i <= g_word_count; i++) {
 		for (j = 0; j < word[i].str_count; j++) {
 			printf("%s ", word[i].group[j]);
@@ -78,12 +78,12 @@ int main() {
 
 }
 
-// ¾ËÆÄºª ºóµµ¼ö Ã¼Å© ÇÔ¼ö
+// ì•ŒíŒŒë²³ ë¹ˆë„ìˆ˜ ì²´í¬ í•¨ìˆ˜
 void checkAlpha(char* str, int alpha[], int length) {
 	int len;
 	int i, index;
 
-	// ¼Ò¹®ÀÚa ASCII(97)
+	// ì†Œë¬¸ìa ASCII(97)
 	for (i = 0; i < length; i++) {
 		index = (*str) - 'a'; // 'a' or 97
 		str++;
@@ -91,12 +91,12 @@ void checkAlpha(char* str, int alpha[], int length) {
 	}
 }
 
-/*	¾ËÆÄºª ºóµµ¼ö ºñ±³ ÇÔ¼ö
+/*	ì•ŒíŒŒë²³ ë¹ˆë„ìˆ˜ ë¹„êµ í•¨ìˆ˜
 
-	#parameter - ¾ËÆÄºª ºóµµ ¼ö
+	#parameter - ì•ŒíŒŒë²³ ë¹ˆë„ ìˆ˜
 
-	¸Å°³º¯¼öÀÇ ºñ±³°ªÀÌ ÀÏÄ¡ - ÀÏÄ¡ÇÏ´Â ÀÎµ¦½º ¹İÈ¯
-	¸Å°³º¯¼öÀÇ ºñ±³°ªÀÌ ºÒÀÏÄ¡ - ÀüÃ¼ ´Ü¾î °³¼ö ¹İÈ¯
+	ë§¤ê°œë³€ìˆ˜ì˜ ë¹„êµê°’ì´ ì¼ì¹˜ - ì¼ì¹˜í•˜ëŠ” ì¸ë±ìŠ¤ ë°˜í™˜
+	ë§¤ê°œë³€ìˆ˜ì˜ ë¹„êµê°’ì´ ë¶ˆì¼ì¹˜ - ì „ì²´ ë‹¨ì–´ ê°œìˆ˜ ë°˜í™˜
 */
 int alphaCmp(Anagram word[], int alpha[]) {
 	int i, j;
@@ -115,40 +115,40 @@ int alphaCmp(Anagram word[], int alpha[]) {
 	return ++g_word_count;
 }
 
-// ´Ü¾î Ãß°¡ ÇÔ¼ö
+// ë‹¨ì–´ ì¶”ê°€ í•¨ìˆ˜
 void addWord(Anagram word[], char*buffer, int alpha[], int index) {
 	char *key;
 	int i, j;
-	int cnt = word[index].str_count; // group ´Ü¾î °³¼ö
+	int cnt = word[index].str_count; // group ë‹¨ì–´ ê°œìˆ˜
 
 	word[index].group[cnt] = strdup(buffer);
 
-	// group Ãß°¡½Ã »ğÀÔÁ¤·Ä
+	// group ì¶”ê°€ì‹œ ì‚½ì…ì •ë ¬
 	for (i = 1; i < cnt + 1; i++) {
 		key = strdup(word[index].group[i]);
 		j = i - 1;
-		while (j >= 0 && strcmp(word[index].group[j], key) == 1) {
+		while (j >= 0 && strcmp(word[index].group[j], key) >= 1) {
 			word[index].group[j + 1] = strdup(word[index].group[j]);
 			j--;
 		}
 		word[index].group[j + 1] = strdup(key);
 	}
 
-	// ¾ËÆÄºª ºóµµ¼ö Ãß°¡
+	// ì•ŒíŒŒë²³ ë¹ˆë„ìˆ˜ ì¶”ê°€
 	if (cnt == 0) {
 		for (i = 0; i < ALPHA_LEN; i++)
 			word[index].alpha[i] = alpha[i];
 //		memcpy(word[index].alpha, alpha, ALPHA_LEN);
 	}
 
-	// group ´Ü¾î °³¼ö
+	// group ë‹¨ì–´ ê°œìˆ˜
 	word[index].str_count++;
 
-	// ÀüÃ¼ °³¼ö Ãß°¡
+	// ì „ì²´ ê°œìˆ˜ ì¶”ê°€
 	g_count++;
 }
 
-// ¼Ò¹®ÀÚ·Î ¸¸µå´Â ÇÔ¼ö
+// ì†Œë¬¸ìë¡œ ë§Œë“œëŠ” í•¨ìˆ˜
 void my_strlwr(char*str) {
 	int i = 0;
 	while (str[i]) {
