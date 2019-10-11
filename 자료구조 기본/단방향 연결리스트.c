@@ -4,7 +4,7 @@
 
 #define MAX_LEN 30
 
-// 단방향 연결리스트 구현
+// 단방향 연결리스트 구현 (전역 변수로 head를 할당하면 좀더 쉽다)
 // add 노드 추가
 // remove 노드 삭제
 // find 노드 찾기
@@ -52,8 +52,6 @@ int main() {
 		}
 
 		if (strcmp(token, "add") == 0) {
-			/*token = strtok(NULL, " ");
-			data = atoi(token);*/
 			head = add(head, data);
 		}
 		else if (strcmp(token, "remove") == 0) {
