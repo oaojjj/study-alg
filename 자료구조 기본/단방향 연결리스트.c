@@ -8,7 +8,7 @@
 // add 노드 추가
 // remove 노드 삭제
 // find 노드 찾기
-// status 목록 출력
+// state 목록 출력
 // exit 종료
 
 typedef struct Node {
@@ -24,7 +24,7 @@ Node* remove_first(Node* node) ;
 Node* remove_node(Node* node, int data);
 Node* remove_after(Node* node,int data) 
 int find(Node* head, int data);
-void status(Node* head);
+void state(Node* head);
 
 int main() {
 	Node* head = NULL;
@@ -33,7 +33,7 @@ int main() {
 	char* token;
 	int data;
 
-	printf("add number, remove num, find num, status, exit\n");
+	printf("add number, remove num, find num, state, exit\n");
 	while (1) {
 		read_line(buffer);
 		token = strtok(buffer, " ");
@@ -46,7 +46,7 @@ int main() {
 			}
 		}
 		else {
-			if (strcmp(token, "status") != 0 || strcmp(token, "exit") != 0) {
+			if (strcmp(token, "state") != 0 || strcmp(token, "exit") != 0) {
 				continue;
 			}
 		}
@@ -66,7 +66,7 @@ int main() {
 				printf("It is %02d Node\n", index);
 			}
 		}
-		else if (strcmp(token, "status") == 0) {
+		else if (strcmp(token, "state") == 0) {
 			status(head);
 		}
 		else if (strcmp(token, "exit") == 0) {
@@ -164,7 +164,7 @@ int find(Node* head, int data) {
 	return 0;
 }
 
-void status(Node* head) {
+void state(Node* head) {
 	int index = 1;
 
 	if (head == NULL) {
