@@ -466,4 +466,33 @@ Term* create_term_instance() {
 	t->next = NULL;
 	return t;
 }
+/* 
+print_term
+if(expo_x==0 && expo_y==0){
+	printf("%d");
+	return;
+} // 상수항 
 
+if(term->coef<0){
+	if(term->coef==-1)
+		printf("-");
+	else
+		printf("%d");
+}
+else if(term->coef>0){
+	if(term->coef==1){
+		if(flag)
+			printf("+");
+	}
+	else
+		printf("%+d");
+}
+if(term->expo_x==1)
+	printf("x");
+else
+	printf("x^%d");
+if(term->expo_y==1)
+	printf("y");
+else
+	printf("y^%d");
+*/
