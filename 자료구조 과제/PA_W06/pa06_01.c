@@ -104,9 +104,9 @@ void add_term(int c, int e_x, int e_y, Polynomial* poly) {
 			if (p->exp_y == e_y) {
 				p->coef += c;
 				if (p->coef == 0) {
-					if (q == NULL) // Ã¹ ¹øÂ° ³ëµå »èÁ¦
+					if (q == NULL) // ì²« ë²ˆì§¸ ë…¸ë“œ ì‚­ì œ
 						poly->first = p->next;
-					else // »çÀÌ ³ëµå »èÁ¦
+					else // ì‚¬ì´ ë…¸ë“œ ì‚­ì œ
 						q->next = p->next;
 					poly->size--;
 					free(p);
@@ -127,16 +127,16 @@ void add_term(int c, int e_x, int e_y, Polynomial* poly) {
 		}
 	}
 
-	Term*term = create_term_instance(); // »õ·Î¿îÅÒ »ı¼º
+	Term*term = create_term_instance(); // ìƒˆë¡œìš´í…€ ìƒì„±
 	term->coef = c;
 	term->exp_x = e_x;
 	term->exp_y = e_y;
 
-	if (q == NULL) { // »õ·Î µé¾î¿Â ÅÒÀÌ Á¦ÀÏ Å« Â÷¼ö ¶Ç´Â ¸Ç ¾Õ¿¡ »ğÀÔ 
+	if (q == NULL) { // ìƒˆë¡œ ë“¤ì–´ì˜¨ í…€ì´ ì œì¼ í° ì°¨ìˆ˜ ë˜ëŠ” ë§¨ ì•ì— ì‚½ì… 
 		term->next = poly->first;
 		poly->first = term;
 	}
-	else { // »çÀÌ¿¡ µé¾î°¡´Â °æ¿ì
+	else { // ì‚¬ì´ì— ë“¤ì–´ê°€ëŠ” ê²½ìš°
 		term->next = p;
 		q->next = term;
 	}
@@ -186,23 +186,23 @@ int parse_and_add_term(char* body, int begin, int end,Polynomial *ptr_poly) {
 		begin++;
 	}
 
-	if (coef == 0) { // °è¼ö°¡ 1 È¤Àº -1ÀÎ °æ¿ì
+	if (coef == 0) { // ê³„ìˆ˜ê°€ 1 í˜¹ì€ -1ì¸ ê²½ìš°
 		coef = sign_coef;
 	}
 	else {
 		coef *= sign_coef;
 	}
 
-	if (begin >= end) { // »ó¼öÇ×
+	if (begin >= end) { // ìƒìˆ˜í•­
 		add_term(coef, 0, 0, ptr_poly);
 		return 1;
 	}
 
-	if (body[begin] != 'x' && body[begin] != 'y') // »ó¼öÇ×ÀÌ ¾Æ´Ñµ¥ x,y°¡ ¾øÀ» °æ¿ì
+	if (body[begin] != 'x' && body[begin] != 'y') // ìƒìˆ˜í•­ì´ ì•„ë‹Œë° x,yê°€ ì—†ì„ ê²½ìš°
 		return 0;
 	//if (body[begin] == 'x' && body[begin + 1] != '^' && body[begin + 1] != 'y' && body[begin+1]!='\0'&&body[begin+1]=='-'&&body[begin + 1] == '+')
 	//	return 0;
-	//if (body[begin] == 'y' && body[begin + 1] != '^') // yÀÏ¶§ µÚ¿¡ ^°¡ ¾Æ´Ò ¶§
+	//if (body[begin] == 'y' && body[begin + 1] != '^') // yì¼ë•Œ ë’¤ì— ^ê°€ ì•„ë‹ ë•Œ
 	//	return 0;
 
 	if (body[begin] == 'x' && body[begin + 1] == '^') {
@@ -250,7 +250,7 @@ void destroy_poly(Polynomial*poly) {
 
 void insert_poly(Polynomial*poly) {
 	for (int i = 0; i < n; i++) {
-		if (polys[i]->name == poly->name) { // ±âÁ¸ ´ÙÇ×½Ä µ¤¾î¾²±â
+		if (polys[i]->name == poly->name) { // ê¸°ì¡´ ë‹¤í•­ì‹ ë®ì–´ì“°ê¸°
 			destroy_poly(polys[i]);
 			polys[i] = poly;
 			return;
@@ -260,14 +260,14 @@ void insert_poly(Polynomial*poly) {
 }
 
 Polynomial* create_by_parse_poly(char name, char*body) {
-	Polynomial* ptr_poly = create_polynomial_instance(name); // °´Ã¼ »ı¼º
+	Polynomial* ptr_poly = create_polynomial_instance(name); // ê°ì²´ ìƒì„±
 	int i = 0, begin_term = 0;
 
 	while (i < strlen(body)) {
 		
-		if (body[i] == '+' || body[i] == '-') // ¸öÃ¼ÀÇ Ã¹ ¹øÂ° °è¼öÀÇ ±âÈ£¸¦ ³Ñ¾î°£´Ù.
+		if (body[i] == '+' || body[i] == '-') // ëª¸ì²´ì˜ ì²« ë²ˆì§¸ ê³„ìˆ˜ì˜ ê¸°í˜¸ë¥¼ ë„˜ì–´ê°„ë‹¤.
 			i++;
-		while (i<strlen(body) && body[i] != '+' && body[i] != '-') // Ã¹ ¹øÂ° ÅÒÀÇ ³¡±îÁö ÀĞ´Â´Ù.
+		while (i<strlen(body) && body[i] != '+' && body[i] != '-') // ì²« ë²ˆì§¸ í…€ì˜ ëê¹Œì§€ ì½ëŠ”ë‹¤.
 			i++;
 		
 		int result = parse_and_add_term(body, begin_term, i, ptr_poly);
@@ -333,7 +333,7 @@ void handle_definition(char *expression) {
 		return;
 	}
 
-	if (body[0] >= 'a' && body[0] <= 'z' && body[0] != 'x' && body[0]!='y') { // µÎ°³ÀÇ ´ÙÇ×½ÄÀ» ÇÕÄ£´Ù.
+	if (body[0] >= 'a' && body[0] <= 'z' && body[0] != 'x' && body[0]!='y') { // ë‘ê°œì˜ ë‹¤í•­ì‹ì„ í•©ì¹œë‹¤.
 		char *former = strtok(body, "+");
 		if (former == NULL || strlen(former) != 1) {
 			printf("Invalid expression formet");
@@ -361,32 +361,21 @@ void handle_definition(char *expression) {
 }
 
 void print_term(Term* term,int flag) {
-	if (term->coef != 0 && flag) {
-		if (term->coef ==-1) {
-			if (term->exp_x == 0 || term->exp_y == 0)
-				printf("-");
-		}
-		if(term->coef!=1 && term->coef!=-1){
-			printf("%d", term->coef);
-		}
+	if(term->coef<0){
+		if(term->coef==-1)
+			printf("-");
+	else
+		printf("%d");
 	}
-	if (term->coef != 0 && !flag) {
-		if (term->coef == 1) {
-			if (term->exp_x == 0 && term->exp_y == 0)
-				printf("%+d", term->coef);
-			else
-				printf("+");
-		}
-		else if(term->coef == -1){
-			if (term->exp_x == 0 && term->exp_y == 0)
-				printf("%+d",term->coef);
-			else
-				printf("-");
-		}
-		else {
-			printf("%+d", term->coef);
-		}
+	else if(term->coef>0){
+	if(term->coef==1){
+		if(flag)
+			printf("+");
 	}
+	else
+		printf("%+d");
+	}
+
 
 	if (term->exp_x > 1) {
 		printf("x^%d", term->exp_x);
