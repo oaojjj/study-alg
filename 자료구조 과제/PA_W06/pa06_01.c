@@ -361,19 +361,31 @@ void handle_definition(char *expression) {
 }
 
 void print_term(Term* term,int flag) {
-	if(term->coef<0){
-		if(term->coef==-1)
-			printf("-");
-	else
-		printf("%d");
+	if (term->coef != 0 && flag) {
+		if (term->coef ==-1) {
+			if (term->exp_x == 0 || term->exp_y == 0)
+				printf("-");
+		}
+		if(term->coef!=1 && term->coef!=-1){
+			printf("%d", term->coef);
+		}
 	}
-	else if(term->coef>0){
-	if(term->coef==1){
-		if(flag)
-			printf("+");
-	}
-	else
-		printf("%+d");
+	if (term->coef != 0 && !flag) {
+		if (term->coef == 1) {
+			if (term->exp_x == 0 && term->exp_y == 0)
+				printf("%+d", term->coef);
+			else
+				printf("+");
+		}
+		else if(term->coef == -1){
+			if (term->exp_x == 0 && term->exp_y == 0)
+				printf("%+d",term->coef);
+			else
+				printf("-");
+		}
+		else {
+			printf("%+d", term->coef);
+		}
 	}
 
 
