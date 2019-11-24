@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include "pos.h"
 #include "queueADT.h"
 
 #define MAX 100
-#define PATH 0 // Áö³ª°¥ ¼ö ÀÖ´Â À§Ä¡
-#define WALL 1 // º®
-#define EXIT 2 // Ãâ±¸
+#define PATH 0 // ì§€ë‚˜ê°ˆ ìˆ˜ ìˆëŠ” ìœ„ì¹˜
+#define WALL 1 // ë²½
+#define EXIT 2 // ì¶œêµ¬
 
 int maze[MAX][MAX];
-int n; // ¹Ì·ÎÅ©±â ÆÄÀÏ¿¡¼­ ¸Ç Ã³À½¿¡ Á¦°ø #if n=3,, 3x3¹Ì·Î
+int n; // ë¯¸ë¡œí¬ê¸° íŒŒì¼ì—ì„œ ë§¨ ì²˜ìŒì— ì œê³µ #if n=3,, 3x3ë¯¸ë¡œ
 int offset[4][2];
 
 void read_maze();
@@ -29,7 +28,7 @@ int main() {
 		//print_maze();
 		//printf("\n\n");
 		Position cur = dequeue(queue);
-		for (int dir = 0; dir < 4; dir++) { // ºÏ:0, µ¿:1, ³²:2, ¼­:3
+		for (int dir = 0; dir < 4; dir++) { // ë¶:0, ë™:1, ë‚¨:2, ì„œ:3
 			if (movealbe(cur, dir)) {
 				Position p = move_to(cur, dir);
 				maze[p.y][p.x] = maze[cur.y][cur.x] - 1;
@@ -69,9 +68,9 @@ void print_maze() {
 bool movealbe(Position cur, int dir) {
 	cur.x += offset[dir][1];
 	cur.y += offset[dir][0];
-	if ((cur.x < 0 || cur.x >= n) || (cur.y<0 || cur.y>=n)) // ÀÌµ¿ÇÒ À§Ä¡°¡ ¹Ì·Î¸¦ ¹ş¾î³ª¸é ¾ÈµÈ´Ù.
+	if ((cur.x < 0 || cur.x >= n) || (cur.y<0 || cur.y>=n)) // ì´ë™í•  ìœ„ì¹˜ê°€ ë¯¸ë¡œë¥¼ ë²—ì–´ë‚˜ë©´ ì•ˆëœë‹¤.
 		return false;
-	if (maze[cur.y][cur.x] == PATH) // ÀÌµ¿ÇÒ À§Ä¡°¡ PATH¶ó¸é ÀÌµ¿ÇÒ ¼ö ÀÖ´Ù.
+	if (maze[cur.y][cur.x] == PATH) // ì´ë™í•  ìœ„ì¹˜ê°€ PATHë¼ë©´ ì´ë™í•  ìˆ˜ ìˆë‹¤.
 		return true;
 	if (maze[cur.y][cur.x] == EXIT) {
 		print_maze();
