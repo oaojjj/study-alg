@@ -26,7 +26,6 @@ public class Prob3 {
 		}
 	}
 	
-	// ver2 배열의 크기가 38을 넘어가면 오버플로우 생김
 	static int getCountSumVer2(int i, int j, int k) {
 		int count = 0;
 
