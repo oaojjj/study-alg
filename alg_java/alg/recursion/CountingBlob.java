@@ -3,15 +3,14 @@ package alg.recursion;
 import static alg.PathSign.*;
 
 /*
-CountingBlob countingBlob = new CountingBlob(new int[][]{
-                {0, 0, 1, 1, 1},
-                {0, 0, 0, 1, 0},
-                {1, 1, 0, 0, 1},
-                {0, 1, 1, 0, 0},
-                {0, 0, 1, 0, 1},
+ CountingBlob countingBlob = new CountingBlob(new int[][]{
+                {1, 1, 0, 0, 0},
+                {1, 1, 1, 0, 1},
+                {0, 0, 1, 1, 0},
+                {1, 0, 0, 1, 1},
+                {1, 1, 0, 1, 0},
         }, 5);
-
-        int result = countingBlob.countBlob(0, 2);
+        int result = countingBlob.countBlob(1, 3);
         System.out.println(result);
  */
 public class CountingBlob {
