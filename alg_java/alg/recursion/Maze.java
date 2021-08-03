@@ -1,5 +1,7 @@
 package alg.recursion;
 
+import alg.Util.PathSign;
+
 public class Maze {
     int[][] maze;
     int n;
@@ -10,19 +12,18 @@ public class Maze {
     }
 
     public boolean findMazePath(int x, int y) {
-        printMaze();
         if (x < 0 || y < 0 || x >= n || y >= n) { // out of map size
             return false;
-        } else if (maze[x][y] != 0) { // no path
+        } else if (maze[x][y] != PathSign.PATHWAY.ordinal()) { // no path
             return false;
         } else if (x == n - 1 && y == n - 1) { // found exit
-            maze[x][y] = 2;
+            maze[x][y] = PathSign.EXIT.ordinal();
             return true;
         } else {
-            maze[x][y] = 2;
+            maze[x][y] = PathSign.PATH.ordinal();
             if (findMazePath(x, y + 1) || findMazePath(x + 1, y) || findMazePath(x - 1, y) || findMazePath(x, y - 1))
                 return true;
-            maze[x][y] = 3;
+            maze[x][y] = PathSign.BLOCKED.ordinal();
             return false;
         }
     }
