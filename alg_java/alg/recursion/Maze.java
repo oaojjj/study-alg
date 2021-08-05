@@ -2,16 +2,8 @@ package alg.recursion;
 
 import static alg.PathSign.*;
 
-/*
-Maze maze = new Maze(
-                new int[][]{
-                        {0, 0, 0, 0},
-                        {1, 1, 0, 1},
-                        {0, 0, 0, 1},
-                        {0, 1, 0, 0}}, 4);
-
-        maze.findMazePath(0, 0);
-        maze.printMaze();
+/**
+ * 미로 문제
  */
 public class Maze {
     int[][] maze;

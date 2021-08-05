@@ -2,16 +2,9 @@ package alg.recursion;
 
 import static alg.PathSign.*;
 
-/*
- CountingBlob countingBlob = new CountingBlob(new int[][]{
-                {1, 1, 0, 0, 0},
-                {1, 1, 1, 0, 1},
-                {0, 0, 1, 1, 0},
-                {1, 0, 0, 1, 1},
-                {1, 1, 0, 1, 0},
-        }, 5);
-        int result = countingBlob.countBlob(1, 3);
-        System.out.println(result);
+/**
+ * blob을 카운팅하는 문제
+ * blob : 상하좌우 및 대각으로도 연결된 것
  */
 public class CountingBlob {
     int[][] grid;
