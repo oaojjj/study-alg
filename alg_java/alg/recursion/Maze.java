@@ -9,9 +9,9 @@ public class Maze {
     int[][] maze;
     int n;
 
-    public Maze(int[][] maze, int n) {
+    public Maze(int[][] maze) {
         this.maze = maze;
-        this.n = n;
+        this.n = maze.length;
     }
 
     public boolean findMazePath(int x, int y) {
@@ -21,6 +21,7 @@ public class Maze {
             return false;
         } else if (x == n - 1 && y == n - 1) { // found exit
             maze[x][y] = EXIT.ordinal();
+            System.out.println("found exit");
             return true;
         } else {
             maze[x][y] = PATH.ordinal();

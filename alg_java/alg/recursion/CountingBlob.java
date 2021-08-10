@@ -10,9 +10,9 @@ public class CountingBlob {
     int[][] grid;
     int n;
 
-    public CountingBlob(int[][] grid, int n) {
+    public CountingBlob(int[][] grid) {
         this.grid = grid;
-        this.n = n;
+        this.n = grid.length;
     }
 
     public int countBlob(int x, int y) {
