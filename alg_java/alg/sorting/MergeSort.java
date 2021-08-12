@@ -1,5 +1,12 @@
 package alg.sorting;
 
+/**
+ * 합병 정렬
+ * 배열을 더 이상 나누어질 수 없을때 까지 분할한 후 정복(정렬)하고 합병
+ * Best = n * log_n
+ * Avg = n * log_n
+ * Worst = n * log_n
+ */
 public class MergeSort {
     int[] data;
     int n;
@@ -31,7 +38,7 @@ public class MergeSort {
         // 한쪽의 값이 다 삽입 됬다면 다른 쪽의 남은 값도 삽입
         while (i <= m) temp[k++] = data[i++];
         while (j <= e) temp[k++] = data[j++];
-        
+
         for (int index = s; index <= e; index++) {
             data[index] = temp[index];
         }
