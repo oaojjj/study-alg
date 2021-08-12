@@ -1,6 +1,7 @@
 package alg.sorting;
 import alg.Utils;
 
+
 /**
  * 퀵 정렬
  * 하나의 값(pivot)을 기준으로 작은 값은 왼쪽으로 큰 값은 오른쪽으로 나누어 분할하고 정복(정렬)한다.
@@ -45,5 +46,25 @@ public class QuickSort {
             }
         }
         return l;
+    }
+
+    public void sortVerTwo(int left, int right) {
+        if (left < right) {
+            int start = left, end = right;
+            int m = (start + end) / 2;
+            // median of left, middle, right
+            int pivot = Math.min(data[start], data[m]) ^ Math.min(data[m], data[end]) ^ Math.min(data[end], data[start]);
+
+            while (start < end) {
+                while (data[start] < pivot) start++;
+                while (data[end] > pivot) end--;
+                if (start < end) {
+                    Utils.swap(data, start, end);
+                }
+            }
+            sortVerTwo(left, start - 1); // 왼쪽 파티션
+            sortVerTwo(start + 1, right); // 오른쪽 파티션
+
+        }
     }
 }
