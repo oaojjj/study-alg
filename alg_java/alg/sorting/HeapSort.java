@@ -38,30 +38,20 @@ public class HeapSort {
     private void maxHeapify(int parent, int n) {
         int leftChild = 2 * parent + 1; // 2i
         int rightChild = 2 * parent + 2; // 2i+1
-        int largestChild;
+        int largest = parent;
 
         // 1. 자식노드가 있는가?
-        if (leftChild > n && rightChild > n) return;
-
         // 2. 자신(parent)보다 큰 자식(child)이 존재하는가?
-        largestChild = n % 2 == 0 ? leftChild : data[leftChild] > data[rightChild] ? leftChild : rightChild;
+        if (rightChild < n && data[largest] < data[rightChild])
+            largest = rightChild;
 
-        if (data[largestChild] <= data[parent]) return;
+        if (leftChild < n && data[largest] < data[leftChild])
+            largest = leftChild;
 
         // 3. 위의 모든 조건을 성립한다면 두 값을 swap하고 다시 heapify
-        Utils.swap(data, parent, largestChild);
-        maxHeapify(largestChild, n);
-
-
-//        if (leftChild < n && data[parent] < data[leftChild])
-//            parent = leftChild;
-//
-//        if (rightChild < n && data[parent] < data[rightChild])
-//            parent = rightChild;
-//
-//        if (i != parent) {
-//            Utils.swap(data, parent, i);
-//            maxHeapify(parent, n);
-//        }
+        if (largest != parent) {
+            Utils.swap(data, parent, largest);
+            maxHeapify(largest, n);
+        }
     }
 }
