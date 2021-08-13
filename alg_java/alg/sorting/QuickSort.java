@@ -1,6 +1,6 @@
 package alg.sorting;
-import alg.Utils;
 
+import alg.Utils;
 
 /**
  * 퀵 정렬
@@ -22,7 +22,7 @@ public class QuickSort {
         if (left < right) {
             int pivot = partition(left, right); // 분할 정렬
             sort(left, pivot - 1); // 왼쪽 파티션
-            sort(pivot, right); // 오른쪽 파티션
+            sort(pivot + 1, right); // 오른쪽 파티션
         }
     }
 
@@ -36,13 +36,11 @@ public class QuickSort {
         // int pivotIndex = data[l] == pivot ? l : data[r] == pivot ? r : m;
         // Utils.swap(data, pivotIndex, m);
 
-        while (l <= r) {
+        while (l < r) {
             while (data[l] < pivot) l++;
             while (data[r] > pivot) r--;
-            if (l <= r) {
+            if (l < r) {
                 Utils.swap(data, l, r);
-                l++;
-                r--;
             }
         }
         return l;
