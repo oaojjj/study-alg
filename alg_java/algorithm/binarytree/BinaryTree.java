@@ -1,15 +1,15 @@
-package alg.binarytree;
+package algorithm.binarytree;
 
-public class BinaryTree<T> {
-    Node<T> root = null;
+public class BinaryTree {
+    Node root = null;
     int size = 0;
 
-    private static class Node<E> {
-        E item;
-        Node<E> left;
-        Node<E> right;
+    private static class Node {
+        String item;
+        Node left;
+        Node right;
 
-        public Node(E item) {
+        public Node(String item) {
             this.item = item;
             left = null;
             right = null;
@@ -21,14 +21,14 @@ public class BinaryTree<T> {
     }
 
 
-    public void add(T item) {
-        Node<T> newNode = new Node<>(item);
+    public void add(String item) {
+        Node newNode = new Node(item);
 
         // 1. is the empty tree?
         if (isEmpty()) root = newNode;
         else {
             // 2. not empty -> add node
-            Node<T> temp = root;
+            Node temp = root;
 
             while (temp.hasChildNode()) {
                 if (temp.item)
@@ -43,11 +43,11 @@ public class BinaryTree<T> {
         return size == 0;
     }
 
-    public Node<T> delete(T item) {
+    public Node delete(String item) {
         return null;
     }
 
-    public boolean contain(T item) {
+    public boolean contain(String item) {
 
         return false;
     }

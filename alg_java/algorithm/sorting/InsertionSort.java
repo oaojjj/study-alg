@@ -1,4 +1,4 @@
-package alg.sorting;
+package algorithm.sorting;
 
 /**
  * 삽입 정렬

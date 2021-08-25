@@ -1,6 +1,6 @@
-package alg.sorting;
+package algorithm.sorting;
 
-import alg.Utils;
+import algorithm.Utils;
 
 /**
  * 버블 소트

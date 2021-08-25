@@ -1,4 +1,4 @@
-package alg.sorting;
+package algorithm.sorting;
 
 /**
  * 합병 정렬
