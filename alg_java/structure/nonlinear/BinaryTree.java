@@ -29,36 +29,45 @@ public class BinaryTree<T extends Comparable<T>> {
     public void insert(Node<T> node, T data) {
         if (node == null) root = new Node<>(data);
         else if (node.data.compareTo(data) >= 0) {
-            if (node.left != null) getLeftSubtree().insert(node.left, data);
+            if (node.left != null) insert(node.left, data);
             else node.left = new Node<>(data);
         } else {
-            if (node.right != null) getRightSubtree().insert(node.right, data);
+            if (node.right != null) insert(node.right, data);
             else node.right = new Node<>(data);
         }
     }
 
-    public BinaryTree<T> getLeftSubtree() {
-        if (root != null && root.left != null)
-            return new BinaryTree<>(root.left);
-        return null;
+    public void traverseInorder(Node<T> node) {
+        if (node == null) return;
+
+        traverseInorder(node.left);
+        System.out.print(node.data + " ");
+        traverseInorder(node.right);
     }
 
-    public BinaryTree<T> getRightSubtree() {
-        if (root != null && root.right != null)
-            return new BinaryTree<>(root.right);
-        return null;
-    }
-
+    // 함수를 한번 더 거치지만 큰 차이 없고 매개변수 없이 이렇게도 가능
     public void traverseInorder() {
+        if (root == null) return;
 
+        System.out.print(root.data + " ");
+        if (root.left != null) getLeftSubtree().traverseInorder();
+        if (root.right != null) getRightSubtree().traverseInorder();
     }
 
-    public void traversePreorder() {
+    public void traversePreorder(Node<T> node) {
+        if (node == null) return;
 
+        System.out.print(node.data + " ");
+        traversePreorder(node.left);
+        traversePreorder(node.right);
     }
 
-    public void traversePostorder() {
+    public void traversePostorder(Node<T> node) {
+        if (node == null) return;
 
+        traversePostorder(node.left);
+        traversePostorder(node.right);
+        System.out.print(node.data + " ");
     }
 
     /**
@@ -103,4 +112,16 @@ public class BinaryTree<T extends Comparable<T>> {
         return 1 + Math.max(treeHeight(node.left), treeHeight(node.right));
     }
 
+
+    public BinaryTree<T> getLeftSubtree() {
+        if (root != null && root.left != null)
+            return new BinaryTree<>(root.left);
+        return null;
+    }
+
+    public BinaryTree<T> getRightSubtree() {
+        if (root != null && root.right != null)
+            return new BinaryTree<>(root.right);
+        return null;
+    }
 }
