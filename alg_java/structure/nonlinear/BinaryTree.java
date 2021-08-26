@@ -6,19 +6,17 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> {
-    public Node<T> root;
-    int level;
+    public Node<T> root = null;
 
     public BinaryTree() {
-        root = null;
     }
 
-    private BinaryTree(Node<T> root) {
-        this.root = root;
+    private BinaryTree(Node<T> node) {
+        this.root = node;
     }
 
     public BinaryTree(T[] dataList) {
-        for (T data : dataList) insert(data);
+        for (T data : dataList) insert(root, data);
     }
 
     public BinaryTree(T data, BinaryTree<T> leftTree, BinaryTree<T> rightTree) {
@@ -28,14 +26,14 @@ public class BinaryTree<T extends Comparable<T>> {
         root.right = rightTree != null ? rightTree.root : null;
     }
 
-    public void insert(T data) {
-        if (root == null) root = new Node<>(data);
-        else if (root.data.compareTo(data) >= 0) {
-            if (root.left != null) getLeftSubtree().insert(data);
-            else root.left = new Node<>(data);
+    public void insert(Node<T> node, T data) {
+        if (node == null) root = new Node<>(data);
+        else if (node.data.compareTo(data) >= 0) {
+            if (node.left != null) getLeftSubtree().insert(node.left, data);
+            else node.left = new Node<>(data);
         } else {
-            if (root.right != null) getRightSubtree().insert(data);
-            else root.right = new Node<>(data);
+            if (node.right != null) getRightSubtree().insert(node.right, data);
+            else node.right = new Node<>(data);
         }
     }
 
@@ -63,8 +61,19 @@ public class BinaryTree<T extends Comparable<T>> {
 
     }
 
+    /**
+     * @param version 1: using queue, 2: using recursion
+     */
+    public void traverseLevelOrder(int version) {
+        if (version == 1) traverseLevelOrderQueue();
+        else if (version == 2) {
+            int h = treeHeight(root);
+            for (int i = 1; i <= h; i++) traverseLevelOrderRecursion(root, i);
+        }
+    }
+
     // using queue
-    public void traverseLevelOrder() {
+    public void traverseLevelOrderQueue() {
         if (root == null) return;
 
         Queue<Node<T>> queue = new LinkedList<>();
@@ -78,8 +87,20 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    // using recursion
-    public void traverseLevelOrder(Node<T> node, int level) {
 
+    // using recursion
+    public void traverseLevelOrderRecursion(Node<T> node, int level) {
+        if (node == null) return;
+        if (level == 1) System.out.print(node.data + " ");
+        else if (level > 1) {
+            traverseLevelOrderRecursion(node.left, level - 1);
+            traverseLevelOrderRecursion(node.right, level - 1);
+        }
     }
+
+    public int treeHeight(Node<T> node) {
+        if (node == null) return 0;
+        return 1 + Math.max(treeHeight(node.left), treeHeight(node.right));
+    }
+
 }
