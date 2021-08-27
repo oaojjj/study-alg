@@ -17,4 +17,8 @@ public class Node<E> {
         this.right = right;
     }
 
+    public boolean hasChild() {
+        return this.left != null || this.right != null;
+    }
+
 }

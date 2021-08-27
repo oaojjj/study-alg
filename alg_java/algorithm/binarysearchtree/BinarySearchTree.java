@@ -1,70 +1,54 @@
 package algorithm.binarysearchtree;
 
-public class BinarySearchTree {
-    Node root = null;
-    int size = 0;
+import structure.Node;
+import structure.nonlinear.BinaryTree;
 
-    private static class Node {
-        String item;
-        Node left;
-        Node right;
+public class BinarySearchTree<T extends Comparable<T>> extends BinaryTree<T> {
 
-        public Node(String item) {
-            this.item = item;
-            left = null;
-            right = null;
-        }
-
-        public boolean hasChildNode() {
-            return this.left != null || this.right != null;
-        }
+    public BinarySearchTree() {
     }
 
+    public BinarySearchTree(T[] data) {
+        super(data);
+    }
 
-    public void add(String item) {
-        Node newNode = new Node(item);
+    public BinarySearchTree(T data, BinaryTree<T> leftTree, BinaryTree<T> rightTree) {
+        super(data, leftTree, rightTree);
+    }
 
-        // 1. is the empty tree?
+    // binaryTree에서 구현한 insert와 기능적으로 동일하나 다른 방식으로 구현해봄..
+    public void insert(T data) {
+        Node<T> newNode = new Node<>(data);
         if (isEmpty()) root = newNode;
-        else {
-            // 2. not empty -> add node
-            Node temp = root;
 
-            while (temp.hasChildNode()) {
-                if (temp.item.compareTo(newNode.item) > 0)
-                    temp = temp.left;
-                temp = temp.right;
-            }
+        Node<T> temp = root, prev;
+        do {
+            prev = temp;
+            if (temp.data.compareTo(newNode.data) >= 0) temp = temp.left;
+            else temp = temp.right;
+        } while (temp != null);
+
+        if (prev.data.compareTo(newNode.data) >= 0) prev.left = newNode;
+        else prev.right = newNode;
+    }
+
+    public boolean search(T data) {
+        Node<T> temp = root;
+        while (temp != null) {
+            int result = temp.data.compareTo(data);
+
+            if (result == 0) return true;
+            temp = result > 0 ? temp.left : temp.right;
         }
-        size++;
-    }
-
-    private boolean isEmpty() {
-        return size == 0;
-    }
-
-    public Node delete(String item) {
-        return null;
-    }
-
-    public boolean contain(String item) {
-
         return false;
     }
 
-    public void inorder() {
-
+    public Node<T> delete(String item) {
+        // case 1: has no child
+        // case 2: has one child
+        // case 3: has two child
+        return null;
     }
 
-    public void preorder() {
 
-    }
-
-    public void postorder() {
-
-    }
-
-    public void levelOrder() {
-
-    }
 }

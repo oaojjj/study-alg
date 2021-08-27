@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class BinaryTree<T extends Comparable<T>> {
-    public Node<T> root = null;
+    protected Node<T> root = null;
 
     public BinaryTree() {
     }
@@ -26,8 +26,10 @@ public class BinaryTree<T extends Comparable<T>> {
         root.right = rightTree != null ? rightTree.root : null;
     }
 
-    public void insert(Node<T> node, T data) {
+    protected void insert(Node<T> node, T data) {
+        // 1. is the empty tree?
         if (node == null) root = new Node<>(data);
+            // 2. if not empty -> find a space to add
         else if (node.data.compareTo(data) >= 0) {
             if (node.left != null) insert(node.left, data);
             else node.left = new Node<>(data);
@@ -35,6 +37,10 @@ public class BinaryTree<T extends Comparable<T>> {
             if (node.right != null) insert(node.right, data);
             else node.right = new Node<>(data);
         }
+    }
+
+    protected boolean isEmpty() {
+        return root == null;
     }
 
     public void traverseInorder(Node<T> node) {
@@ -45,9 +51,9 @@ public class BinaryTree<T extends Comparable<T>> {
         traverseInorder(node.right);
     }
 
-    // 함수를 한번 더 거치지만 큰 차이 없고 매개변수 없이 이렇게도 가능
+    // 함수를 한번 더 거치지만 매개변수 없이 이렇게도 가능
     public void traverseInorder() {
-        if (root == null) return;
+        if (isEmpty()) return;
 
         System.out.print(root.data + " ");
         if (root.left != null) getLeftSubtree().traverseInorder();
@@ -76,14 +82,14 @@ public class BinaryTree<T extends Comparable<T>> {
     public void traverseLevelOrder(int version) {
         if (version == 1) traverseLevelOrderQueue();
         else if (version == 2) {
-            int h = treeHeight(root);
+            int h = getTreeHeight(root);
             for (int i = 1; i <= h; i++) traverseLevelOrderRecursion(root, i);
         }
     }
 
     // using queue
-    public void traverseLevelOrderQueue() {
-        if (root == null) return;
+    protected void traverseLevelOrderQueue() {
+        if (isEmpty()) return;
 
         Queue<Node<T>> queue = new LinkedList<>();
         queue.offer(root);
@@ -98,7 +104,7 @@ public class BinaryTree<T extends Comparable<T>> {
 
 
     // using recursion
-    public void traverseLevelOrderRecursion(Node<T> node, int level) {
+    protected void traverseLevelOrderRecursion(Node<T> node, int level) {
         if (node == null) return;
         if (level == 1) System.out.print(node.data + " ");
         else if (level > 1) {
@@ -107,20 +113,23 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
-    public int treeHeight(Node<T> node) {
+    protected int getTreeHeight(Node<T> node) {
         if (node == null) return 0;
-        return 1 + Math.max(treeHeight(node.left), treeHeight(node.right));
+        return 1 + Math.max(getTreeHeight(node.left), getTreeHeight(node.right));
     }
 
+    public Node<T> getRoot() {
+        return root;
+    }
 
     public BinaryTree<T> getLeftSubtree() {
-        if (root != null && root.left != null)
+        if (!isEmpty() && root.left != null)
             return new BinaryTree<>(root.left);
         return null;
     }
 
     public BinaryTree<T> getRightSubtree() {
-        if (root != null && root.right != null)
+        if (!isEmpty() && root.right != null)
             return new BinaryTree<>(root.right);
         return null;
     }
